@@ -19,9 +19,7 @@ public class UneUtilisation {
         try {
             p1.empiler(new PolygoneRegulier(4,100));
             // ....
-            Object obj = p1.depiler();
-         if( obj instanceof PolygoneRegulier)
-           { String s = obj.toString();} // vérifiez qu'une exception se
+            String s = p1.depiler().toString(); // vérifiez qu'une exception se
                                               // produit
         } catch (Exception e) {
             e.printStackTrace();

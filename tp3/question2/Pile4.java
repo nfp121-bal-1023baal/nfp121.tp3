@@ -128,16 +128,16 @@ public class Pile4  implements PileI, Cloneable {
        
         if (o instanceof Pile4) {
             PileI p = (PileI) o;
-            if(taille()==p.taille() && capacite()==p.capacite())
+            if(taille()!=p.taille() || capacite()!=p.capacite())
                 return false;
             try{
-                if(capacite()==0)
+                if(taille()==0)
                     return true;
                 PileI p1 = (PileI)this.clone();
-                PileI pi = foundClass(o);
+                PileI pi = foundClass(p);
                 for(int i=0;i<p.taille();i++){
                     
-                    Object ob = p.depiler();Object ob2 = pi.depiler();
+                    Object ob = p1.depiler();Object ob2 = pi.depiler();
                    if(!ob.equals(ob2)) return false; 
                     
                 }
@@ -181,7 +181,8 @@ public class Pile4  implements PileI, Cloneable {
         
         Maillon main = ((Maillon)o).suivant();
         
-        while(main!=null){
+        while(main!=null)
+        {
             
             index.setSuivant(new Maillon(main.element(),null));
             System.out.println(index.suivant());

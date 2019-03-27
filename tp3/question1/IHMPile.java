@@ -41,11 +41,16 @@ public class IHMPile extends JFrame implements ActionListener{
         if(ae.getActionCommand().equals("empiler")){
             try{
             // à compléter
-            String s=donnee.getText();
-            p.empiler(s) ;
-            donnee.setText("");
-            contenu.setText( p.toString() );
-            sommet.setText(s);
+            
+            if(donnee.getText().equals(""))  JOptionPane.showMessageDialog(null, "null???!!!!");
+            else
+            {
+                String s=donnee.getText();
+                p.empiler(s) ;
+                donnee.setText("");
+                contenu.setText( p.toString() );
+                sommet.setText(s);
+            }
             // en cas d'exception
             //contenu.setText( /* à compléter */"" + " estPleine !");
         }
