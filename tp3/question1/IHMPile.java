@@ -20,6 +20,9 @@ public class IHMPile extends JFrame implements ActionListener{
         enHaut.add(donnee);
         enHaut.add(boutonEmpiler);
         enHaut.add(boutonDepiler);
+        // faire sommet non editable
+        sommet.setEditable(false);
+        
         enHaut.add(sommet);
         setLayout(new BorderLayout(5,5));
         add("North",enHaut);
@@ -34,19 +37,33 @@ public class IHMPile extends JFrame implements ActionListener{
 
     }
 
-    public void actionPerformed(ActionEvent ae){
+    public void actionPerformed(ActionEvent ae) {
         if(ae.getActionCommand().equals("empiler")){
-
+            try{
             // à compléter
-
+            String s=donnee.getText();
+            p.empiler(s) ;
+            donnee.setText("");
+            contenu.setText( p.toString() );
+            sommet.setText(s);
             // en cas d'exception
             //contenu.setText( /* à compléter */"" + " estPleine !");
-
+        }
+        catch(Exception e){ 
+            contenu.setText(  p.toString() + "   estPleine ! "); }
         }else{
-
+            try{
             // à compléter
+            p.depiler();
+            Object obj = p.depiler();
+            if(obj instanceof String)
+            {sommet.setText(obj.toString()); p.empiler(obj);
+            contenu.setText( p.toString() );}
             // en cas d'exception
             //contenu.setText( /* à compléter */"" + " estVide !");
+        }
+        catch(Exception e){sommet.setText("");
+            contenu.setText("[]    estVide !");}
         }
     }
 

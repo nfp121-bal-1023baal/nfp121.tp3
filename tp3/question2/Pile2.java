@@ -5,7 +5,7 @@ import question1.PileVideException;
 
 import java.util.Stack;
 
-public class Pile2 implements PileI {
+public class Pile2  implements PileI,Cloneable {
     /** par delegation : utilisation de la class Stack */
     private Stack<Object> stk;
 
@@ -21,25 +21,36 @@ public class Pile2 implements PileI {
     public Pile2(int taille) {
         // prevoir le cas <=0
         // a completer
+         if (taille < 0)
+           { taille = CAPACITE_PAR_DEFAUT;}
+        this.stk = new Stack<Object>();
+        this.capacite = taille;
     }
 
     // constructeur fourni
     public Pile2() {
-        this(0);
+        this(CAPACITE_PAR_DEFAUT);
     }
 
     public void empiler(Object o) throws PilePleineException {
         // a completer
+        if (estPleine())
+            throw new PilePleineException();
+        this.stk.push(o);
     }
 
     public Object depiler() throws PileVideException {
         // a completer
-        return null;
+        if(estVide())
+            throw new PileVideException();
+        return this.stk.pop();
     }
 
     public Object sommet() throws PileVideException {
         // a completer
-        return null;
+        if (estVide())
+            throw new PileVideException();
+        return this.stk.peek();
     }
 
     /**
@@ -49,7 +60,7 @@ public class Pile2 implements PileI {
      */
     public boolean estVide() {
         // a completer
-        return false;
+        return this.stk.empty();
     }
 
     /**
@@ -59,7 +70,7 @@ public class Pile2 implements PileI {
      */
     public boolean estPleine() {
         // a completer
-        return false;
+        return this.taille() >=capacite;
     }
 
     /**
@@ -71,13 +82,73 @@ public class Pile2 implements PileI {
     public String toString() {
         String s = "[";
         // a completer
+        for(int i=this.stk.size()-1 ; i>=0 ; i--)
+        {
+            s+=this.stk.get(i).toString();
+            if(i>0) s+=", ";
+        }
+        
         return s + "]";
     }
 
     public boolean equals(Object o) {
         // a completer
-        return false;
+        try{
+        if( this== o ){
+            return true;
+        }
+       if(!(o instanceof PileI)){return false;}
+        PileI pi = foundClass(o);
+        PileI p = (PileI)this.clone();
+        
+        
+        if (pi.taille() == p.taille() 
+            && pi.capacite() == p.capacite())
+            {
+            
+            for(int i= 0; i<taille() ; i++){
+                
+               Object ob= pi.depiler();Object ob1=p.depiler();
+               if(!ob.equals(ob1)) return false;
+                    
+                }
+            
+            return true;
+        }
     }
+    catch(CloneNotSupportedException e){e.printStackTrace(); }
+            catch(PileVideException e){e.printStackTrace();}
+            
+        return false;
+    
+
+    }
+    
+    public Object clone() throws CloneNotSupportedException
+    {
+        Pile2 p = (Pile2)super.clone();
+        
+        p.setSTK(stk.clone());
+        return p;
+    }
+    
+    public void setSTK(Object t)
+    {
+        this.stk=(Stack)t;
+    }
+     
+    private PileI foundClass(Object o)throws CloneNotSupportedException
+    {
+       
+        if(o instanceof Pile){return (PileI)((Pile)o).clone();}
+        if(o instanceof Pile2){return (PileI)((Pile2)o).clone();}
+        if(o instanceof Pile3){return (PileI)((Pile3)o).clone();}
+        if(o instanceof Pile4){return (PileI)((Pile4)o).clone();}
+        
+         return null;
+    }
+    
+    
 
     // fonction fournie
     public int hashCode() {
@@ -91,7 +162,7 @@ public class Pile2 implements PileI {
      */
     public int taille() {
         // a completer
-        return 0;
+        return this.stk.size();
     }
 
     /**
@@ -101,7 +172,7 @@ public class Pile2 implements PileI {
      */
     public int capacite() {
         // a completer
-        return 0;
+        return this.capacite;
     }
-
+    
 } // Pile2.java
